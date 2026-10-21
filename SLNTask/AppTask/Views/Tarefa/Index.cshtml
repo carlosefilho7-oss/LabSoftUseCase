@@ -27,6 +27,35 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataPlanejada)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataIniciada)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataFinalizada)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataCancelada)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StatusTarefa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prazo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Funcionario.Nome)
+                </td>
+                <td>
+                    <a href="/Entidade/Edit/@item.Codigo" class="btn btn-primary btn-sm">Alterar</a>
+                    <a href="/Entidade/Details/@item.Codigo" class="btn btn-success btn-sm">Detalhe</a>
+                    <button type="button"
+                            class="btn btn-danger btn-sm"
                 <td>@item.Descricao</td>
                 <td>@item.DataPlanejada</td>
                 <td>@item.DataIniciada</td>
@@ -43,6 +72,8 @@
                             data-bs-target="#deleteModal"
                             data-id="@item.Codigo"
                             data-descricao="@item.Descricao">
+                        Excluir
+                    </button>
                         Delete
                     </button>
 
@@ -56,6 +87,17 @@
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmar Exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                Deseja realmente excluir o item <strong id="modalItemDescricao"></strong>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form id="deleteForm" method="post" action="">
+                    <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
             <div class="modal-header bg-danger text-white">
                 <h5 class="modal-title" id="deleteModalLabel">Confirmação de Exclusão</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -75,6 +117,35 @@
     </div>
 </div>
 
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteModal = document.getElementById('deleteModal');
+            if (deleteModal) {
+                deleteModal.addEventListener('show.bs.modal', function (event) {
+                    // Botão que acionou o modal
+                    const button = event.relatedTarget;
+
+                    // Extrai as informações dos atributos data-*
+                    const id = button.getAttribute('data-id');
+                    const descricao = button.getAttribute('data-descricao');
+
+                    // Atualiza a descrição no corpo do modal
+                    const modalDescricao = deleteModal.querySelector('#modalItemDescricao');
+                    if (modalDescricao) {
+                        modalDescricao.textContent = descricao;
+                    }
+
+                    // Atualiza o atributo action do formulário para o endpoint de exclusão
+                    const deleteForm = deleteModal.querySelector('#deleteForm');
+                    if (deleteForm) {
+                        deleteForm.action = '/Entidade/Delete/' + id;
+                    }
+                });
+            }
+        });
+    </script>
+}
 
 @section Scripts {
     <script>
