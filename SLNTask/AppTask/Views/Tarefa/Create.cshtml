@@ -10,58 +10,65 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Descricao" class="control-label"></label>
-                <input asp-for="Descricao" class="form-control" />
-                <span asp-validation-for="Descricao" class="text-danger"></span>
+        <form action="/Tarefa/Create" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group mb-3">
+                <label for="Descricao" class="control-label">Descrição</label>
+                <input type="text" id="Descricao" name="Descricao" class="form-control" required />
             </div>
-            <div class="form-group">
-                <label asp-for="DataPlanejada" class="control-label"></label>
-                <input asp-for="DataPlanejada" class="form-control" />
-                <span asp-validation-for="DataPlanejada" class="text-danger"></span>
+
+            <div class="form-group mb-3">
+                <label for="DataPlanejada" class="control-label">Data Planejada</label>
+                <input type="datetime-local" id="DataPlanejada" name="DataPlanejada" class="form-control" />
             </div>
-            <div class="form-group">
-                <label asp-for="DataIniciada" class="control-label"></label>
-                <input asp-for="DataIniciada" class="form-control" />
-                <span asp-validation-for="DataIniciada" class="text-danger"></span>
+
+            <div class="form-group mb-3">
+                <label for="DataIniciada" class="control-label">Data Iniciada</label>
+                <input type="datetime-local" id="DataIniciada" name="DataIniciada" class="form-control" />
             </div>
-            <div class="form-group">
-                <label asp-for="DataFinalizada" class="control-label"></label>
-                <input asp-for="DataFinalizada" class="form-control" />
-                <span asp-validation-for="DataFinalizada" class="text-danger"></span>
+
+            <div class="form-group mb-3">
+                <label for="DataFinalizada" class="control-label">Data Finalizada</label>
+                <input type="datetime-local" id="DataFinalizada" name="DataFinalizada" class="form-control" />
             </div>
-            <div class="form-group">
-                <label asp-for="DataCancelada" class="control-label"></label>
-                <input asp-for="DataCancelada" class="form-control" />
-                <span asp-validation-for="DataCancelada" class="text-danger"></span>
+
+            <div class="form-group mb-3">
+                <label for="DataCancelada" class="control-label">Data Cancelada</label>
+                <input type="datetime-local" id="DataCancelada" name="DataCancelada" class="form-control" />
             </div>
-            <div class="form-group">
-                <label asp-for="StatusTarefa" class="control-label"></label>
-                <input asp-for="StatusTarefa" class="form-control" />
-                <span asp-validation-for="StatusTarefa" class="text-danger"></span>
+
+            <div class="form-group mb-3">
+                <label for="StatusTarefa" class="control-label">Status da Tarefa</label>
+                <input type="text" id="StatusTarefa" name="StatusTarefa" class="form-control" />
             </div>
-            <div class="form-group">
-                <label asp-for="Prazo" class="control-label"></label>
-                <input asp-for="Prazo" class="form-control" />
-                <span asp-validation-for="Prazo" class="text-danger"></span>
+
+            <div class="form-group mb-3">
+                <label for="Prazo" class="control-label">Prazo (Dias)</label>
+                <input type="number" id="Prazo" name="Prazo" class="form-control" />
             </div>
-            <div class="form-group">
-                <label asp-for="FuncionarioId" class="control-label"></label>
-                <select asp-for="FuncionarioId" class="form-control" asp-items="ViewBag.ListaFuncionario"></select>
+
+            <div class="form-group mb-3">
+                <label for="FuncionarioId" class="control-label">Funcionário</label>
+                <select id="FuncionarioId" name="FuncionarioId" class="form-control">
+                    <option value="">-- Selecione o Funcionário --</option>
+                    @if (ViewBag.ListaFuncionario != null)
+                    {
+                        @foreach (var func in ViewBag.ListaFuncionario)
+                        {
+                            <option value="@func.Codigo">@func.Nome</option>
+                        }
+                    }
+                </select>
             </div>
-            <div class="form-group">
+
+            <div class="form-group mt-3">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="mt-3">
+    <a href="/Tarefa/Index">Back to List</a>
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
